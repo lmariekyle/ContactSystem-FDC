@@ -60,6 +60,19 @@
                         </li>
                     @endif
                 @else
+  
+                    <li class="nav-item">
+                        <a href="{{ route('contacts.index') }}" class="nav-link">
+                            Contact
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('contacts.create') }}" class="nav-link">
+                            Add Contact
+                        </a>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('logout') }}"
                            onclick="event.preventDefault();
@@ -69,11 +82,6 @@
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('contacts.create') }}" class="nav-link">
-                            Add Contact
-                        </a>
                     </li>
                 @endguest
             </ul>
@@ -92,7 +100,7 @@ $(document).ready(function(){
     function fetch_contact_data(query = '')
     {
         $.ajax({
-            url:"{{ route('search') }}", //the URL where the Ajax request will be sent which I also defined in the web.php
+            url:"{{ route('search') }}",
             method:'GET',
             data:{query:query}, 
             dataType:'json',
