@@ -58,19 +58,23 @@ class ContactController extends Controller
         {
             $output = '';
             $query = $request->get('query');
-            if($query != '') {
+            if ($query != '') {
                 $data = DB::table('contacts')
-                    ->where('name', 'like', '%'.$query.'%')
-                    ->orWhere('company', 'like', '%'.$query.'%')
-                    ->orWhere('phone', 'like', '%'.$query.'%')
-                    ->orWhere('email', 'like', '%'.$query.'%')
+                    ->where('user_id', auth()->id()) // Fetch contacts only for authenticated user
+                    ->where(function ($queryBuilder) use ($query) {
+                        $queryBuilder->where('name', 'like', '%'.$query.'%')
+                            ->orWhere('company', 'like', '%'.$query.'%')
+                            ->orWhere('phone', 'like', '%'.$query.'%')
+                            ->orWhere('email', 'like', '%'.$query.'%');
+                    })
                     ->get();
-                    
             } else {
                 $data = DB::table('contacts')
+                    ->where('user_id', auth()->id()) // Fetch contacts only for authenticated user
                     ->orderBy('id', 'asc')
                     ->get();
             }
+            
              
             $total_row = $data->count();
             if($total_row > 0){
